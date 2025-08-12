@@ -1,0 +1,59 @@
+{% comment %}
+Auto Internal Linker — Liquid snippet (Shopify)
+{% endcomment %}
+<script>
+(function AutoLinker(){
+  var MAX_LINKS_PER_ARTICLE = 6;
+  var ADD_UTM = true;
+  var UTM = '?utm_source=blog&utm_medium=internal&utm_campaign=auto_linker';
+  var container = document.querySelector('[data-blog-article], .article-template, article, .rte, .article__content');
+  if (!container) return;
+
+  var MAP = window.__LINK_MAP__ || [
+    { kw:[/\bwholesale coffee\b/i, /\bwholesale\b/i], url:'https://www.yieldcoffee.com/pages/holistic-wholesale' },
+    { kw:[/\bcoffee subscription\b/i, /\bsubscription\b/i], url:'https://www.yieldcoffee.com/collections/yield-coffee-club-subscription' },
+    { kw:[/\bwhole bean coffee\b/i, /\bcoffee collection\b/i], url:'https://www.yieldcoffee.com/collections/coffee' },
+    { kw:[/\bcontact\b/i, /\bconnect\b/i], url:'https://www.yieldcoffee.com/pages/connect' }
+  ];
+
+  var forbidden = new Set(['A','BUTTON','SELECT','TEXTAREA','INPUT']);
+  function isSkip(n){ return forbidden.has(n.nodeName) || n.closest('a,button,[role="button"],.no-autolink'); }
+
+  var sections = [];
+  var current = {root:container, nodes:[]};
+  Array.from(container.children).forEach(function(el){
+    if(el.tagName==='H2'){ if(current.nodes.length) sections.push(current); current={root:el,nodes:[]}; }
+    else current.nodes.push(el);
+  });
+  if(current.nodes.length) sections.push(current);
+
+  var made = 0, CAP = MAX_LINKS_PER_ARTICLE;
+
+  function process(blocks){
+    blocks.forEach(function(p){
+      if (made>=CAP || isSkip(p)) return;
+      var html = p.innerHTML;
+      var linked = {};
+      MAP.forEach(function(it){
+        if (made>=CAP || linked[it.url]) return;
+        it.kw.some(function(rx){
+          if (made>=CAP) return true;
+          if (rx.test(html)) {
+            var href = it.url + (ADD_UTM?UTM:'');
+            html = html.replace(rx, function(m){ return '<a href="'+href+'" class="internal-link" data-autolink="true">'+m+'</a>'; });
+            linked[it.url]=true; made++; return true;
+          }
+          return false;
+        });
+      });
+      p.innerHTML = html;
+    });
+  }
+
+  sections.forEach(function(section){
+    var blocks = Array.from(section.nodes).flatMap(function(n){ return n.querySelectorAll? Array.from(n.querySelectorAll('p, li')): []; });
+    var mid = Math.floor(blocks.length/2);
+    process(blocks.slice(mid).concat(blocks.slice(0, mid)));
+  });
+})();
+</script>

@@ -1,0 +1,45 @@
+{
+  "brand": "Yield Coffee Roasters",
+  "site": "https://www.yieldcoffee.com",
+  "tone": [
+    "formal",
+    "professional",
+    "forward-thinking"
+  ],
+  "voice_notes": "Tell it like it is; no fluff; corporate jargon acceptable.",
+  "sitemap_url": "https://www.yieldcoffee.com/sitemap.xml",
+  "link_policy": {
+    "max_internal": 6,
+    "utm": true
+  },
+  "link_overrides": [
+    {
+      "anchor": [
+        "wholesale",
+        "wholesale coffee"
+      ],
+      "url": "https://www.yieldcoffee.com/pages/holistic-wholesale"
+    },
+    {
+      "anchor": [
+        "coffee subscription",
+        "subscription"
+      ],
+      "url": "https://www.yieldcoffee.com/collections/yield-coffee-club-subscription"
+    },
+    {
+      "anchor": [
+        "coffee collection",
+        "whole bean coffee"
+      ],
+      "url": "https://www.yieldcoffee.com/collections/coffee"
+    },
+    {
+      "anchor": [
+        "contact",
+        "connect"
+      ],
+      "url": "https://www.yieldcoffee.com/pages/connect"
+    }
+  ]
+}

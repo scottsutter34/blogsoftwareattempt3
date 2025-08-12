@@ -1,0 +1,12 @@
+{
+  "keyword": "wholesale coffee beans",
+  "intent": "informational",
+  "audience": "cafe owners, restaurateurs, wholesale buyers",
+  "wordcount": 1400,
+  "cta": "none",
+  "cms": "shopify",
+  "geo": [
+    "US"
+  ],
+  "faq": true
+}
